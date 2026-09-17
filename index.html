@@ -1,1 +1,2253 @@
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+/* =========================================================
+   PERSONALIZED LEARNING RECOMMENDATION AGENT
+   =========================================================
+
+   FEATURES:
+   1. Student Profile
+   2. Performance Analysis
+   3. Skill Gap Identification
+   4. Adaptive Basic -> Intermediate -> Advanced Learning
+   5. Learning Resources
+   6. Quiz
+   7. Interactive Visual Learning
+   8. Learn Buddy
+   9. Motivation & Encouragement
+   10. Personalized Study Plan
+   11. Progress Tracking
+   12. XP and Badges
+   13. Daily Challenge
+   14. Complete Recommendation
+
+   ========================================================= */
+
+
+/* =========================================================
+   STUDENT STRUCTURE
+   ========================================================= */
+
+struct Student
+{
+    char name[50];
+    int age;
+
+    char subject[50];
+
+    int testScore;
+    int previousScore;
+
+    char skillLevel[30];
+
+    int studyHours;
+    int topicsCompleted;
+
+    int learningLevel;
+    int quizScore;
+
+    /* Learn Buddy */
+    char buddy[30];
+
+    /* Gamification */
+    int xp;
+    int streak;
+
+    /* Topic-wise knowledge */
+    int arrays;
+    int linkedLists;
+    int stacks;
+    int queues;
+    int trees;
+    int graphs;
+};
+
+
+/* =========================================================
+   FUNCTION DECLARATIONS
+   ========================================================= */
+
+void showProfile(struct Student *s);
+
+void performanceAnalysis(struct Student *s);
+
+void skillGap(struct Student *s);
+
+void adaptiveLearning(struct Student *s);
+
+void resources(struct Student *s);
+
+void quiz(struct Student *s);
+
+void conceptVisualization(struct Student *s);
+
+void learnBuddy(struct Student *s);
+
+void studyPlan(struct Student *s);
+
+void progressTracking(struct Student *s);
+
+void completeRecommendation(struct Student *s);
+
+
+/* Learn Buddy functions */
+
+void chooseBuddy(struct Student *s);
+
+void showKnowledge(struct Student *s);
+
+void updateKnowledge(struct Student *s);
+
+void showRewards(struct Student *s);
+
+void dailyChallenge(struct Student *s);
+
+void motivationSupport(struct Student *s);
+
+
+/* Utility functions */
+
+void addXP(struct Student *s, int amount);
+
+void updateLearningLevel(struct Student *s);
+
+void openVisualization(int topic);
+
+
+/* =========================================================
+   ADD XP
+   ========================================================= */
+
+void addXP(struct Student *s, int amount)
+{
+    s->xp += amount;
+
+    printf("\n+%d XP earned!", amount);
+    printf("\nTotal XP: %d\n", s->xp);
+}
+
+
+/* =========================================================
+   UPDATE ADAPTIVE LEARNING LEVEL
+   ========================================================= */
+
+void updateLearningLevel(struct Student *s)
+{
+    int score;
+
+    if (s->quizScore != -1)
+    {
+        score = (s->testScore + s->quizScore) / 2;
+    }
+    else
+    {
+        score = s->testScore;
+    }
+
+
+    if (score < 40)
+    {
+        s->learningLevel = 1;
+    }
+    else if (score < 70)
+    {
+        s->learningLevel = 2;
+    }
+    else
+    {
+        s->learningLevel = 3;
+    }
+}
+
+
+/* =========================================================
+   STUDENT PROFILE
+   ========================================================= */
+
+void showProfile(struct Student *s)
+{
+    printf("\n========================================\n");
+    printf("          STUDENT PROFILE\n");
+    printf("========================================\n");
+
+    printf("\nName              : %s", s->name);
+    printf("\nAge               : %d", s->age);
+    printf("\nSubject           : %s", s->subject);
+
+    printf("\nPrevious Score    : %d%%", s->previousScore);
+    printf("\nCurrent Score     : %d%%", s->testScore);
+
+    printf("\nSkill Level       : %s", s->skillLevel);
+
+    printf("\nStudy Hours/Day   : %d", s->studyHours);
+
+    printf("\nTopics Completed  : %d", s->topicsCompleted);
+
+
+    if (s->quizScore == -1)
+    {
+        printf("\nQuiz Score        : Not attempted");
+    }
+    else
+    {
+        printf("\nQuiz Score        : %d%%", s->quizScore);
+    }
+
+
+    printf("\nLearn Buddy       : %s", s->buddy);
+
+    printf("\nXP                : %d", s->xp);
+
+    printf("\nDaily Streak      : %d days", s->streak);
+}
+
+
+/* =========================================================
+   PERFORMANCE ANALYSIS
+   ========================================================= */
+
+void performanceAnalysis(struct Student *s)
+{
+    printf("\n========================================\n");
+    printf("        PERFORMANCE ANALYSIS\n");
+    printf("========================================\n");
+
+    printf("\nPrevious Score : %d%%", s->previousScore);
+
+    printf("\nCurrent Score  : %d%%", s->testScore);
+
+
+    if (s->testScore > s->previousScore)
+    {
+        printf("\n\nPerformance Trend: IMPROVING");
+
+        printf("\nKeep following the current learning path.");
+    }
+    else if (s->testScore < s->previousScore)
+    {
+        printf("\n\nPerformance Trend: NEEDS ATTENTION");
+
+        printf("\nThe system will provide additional");
+        printf("\nsupport and motivation.");
+    }
+    else
+    {
+        printf("\n\nPerformance Trend: STABLE");
+    }
+
+
+    if (s->testScore < 40)
+    {
+        printf("\n\nCurrent Performance Level: BASIC");
+    }
+    else if (s->testScore < 70)
+    {
+        printf("\n\nCurrent Performance Level: INTERMEDIATE");
+    }
+    else
+    {
+        printf("\n\nCurrent Performance Level: ADVANCED");
+    }
+
+
+    /* Motivation trigger */
+
+    if (s->testScore < s->previousScore)
+    {
+        printf("\n\nLearn Buddy:");
+        printf("\n\"A temporary setback does not define");
+        printf("\nyour learning journey.\"");
+    }
+}
+
+
+/* =========================================================
+   SKILL GAP IDENTIFICATION
+   ========================================================= */
+
+void skillGap(struct Student *s)
+{
+    printf("\n========================================\n");
+    printf("        SKILL GAP IDENTIFICATION\n");
+    printf("========================================\n");
+
+
+    if (s->testScore < 40)
+    {
+        printf("\nMajor Skill Gap Detected.");
+
+        printf("\n\nRecommendation:");
+        printf("\n-> Start from basic concepts");
+        printf("\n-> Use visual learning");
+        printf("\n-> Solve simple questions");
+        printf("\n-> Take beginner quizzes");
+    }
+    else if (s->testScore < 70)
+    {
+        printf("\nModerate Skill Gap Detected.");
+
+        printf("\n\nRecommendation:");
+        printf("\n-> Revise fundamentals");
+        printf("\n-> Practice intermediate problems");
+        printf("\n-> Use interactive visualization");
+        printf("\n-> Take quizzes regularly");
+    }
+    else
+    {
+        printf("\nNo major overall skill gap detected.");
+
+        printf("\n\nRecommendation:");
+        printf("\n-> Move towards advanced problems");
+        printf("\n-> Practice application-based questions");
+    }
+
+
+    printf("\n\nTopic-wise Skill Gaps:");
+
+    if (s->arrays < 60)
+        printf("\n-> Arrays");
+
+    if (s->linkedLists < 60)
+        printf("\n-> Linked Lists");
+
+    if (s->stacks < 60)
+        printf("\n-> Stacks");
+
+    if (s->queues < 60)
+        printf("\n-> Queues");
+
+    if (s->trees < 60)
+        printf("\n-> Trees");
+
+    if (s->graphs < 60)
+        printf("\n-> Graphs");
+}
+
+
+/* =========================================================
+   ADAPTIVE LEARNING
+   ========================================================= */
+
+void adaptiveLearning(struct Student *s)
+{
+    updateLearningLevel(s);
+
+
+    printf("\n========================================\n");
+    printf("       ADAPTIVE LEARNING ENGINE\n");
+    printf("========================================\n");
+
+
+    if (s->learningLevel == 1)
+    {
+        printf("\nLearning Level: BASIC");
+
+        printf("\n\nRecommended Path:");
+
+        printf("\n1. Learn fundamental concepts");
+        printf("\n2. Watch visual explanations");
+        printf("\n3. Solve easy examples");
+        printf("\n4. Take beginner quiz");
+    }
+    else if (s->learningLevel == 2)
+    {
+        printf("\nLearning Level: INTERMEDIATE");
+
+        printf("\n\nRecommended Path:");
+
+        printf("\n1. Revise fundamentals");
+        printf("\n2. Practice intermediate problems");
+        printf("\n3. Use interactive visualization");
+        printf("\n4. Take topic-wise quizzes");
+    }
+    else
+    {
+        printf("\nLearning Level: ADVANCED");
+
+        printf("\n\nRecommended Path:");
+
+        printf("\n1. Solve advanced problems");
+        printf("\n2. Practice algorithms");
+        printf("\n3. Solve application-based questions");
+        printf("\n4. Take advanced quizzes");
+    }
+
+
+    printf("\n\nThe learning difficulty automatically");
+    printf("\nchanges according to performance.");
+}
+
+
+/* =========================================================
+   LEARNING RESOURCES
+   ========================================================= */
+
+void resources(struct Student *s)
+{
+    printf("\n========================================\n");
+    printf("         LEARNING RESOURCES\n");
+    printf("========================================\n");
+
+
+    if (s->learningLevel == 1)
+    {
+        printf("\nRecommended Resources:");
+
+        printf("\n-> Beginner concepts");
+        printf("\n-> Simple examples");
+        printf("\n-> Interactive visualizations");
+        printf("\n-> Beginner quizzes");
+    }
+    else if (s->learningLevel == 2)
+    {
+        printf("\nRecommended Resources:");
+
+        printf("\n-> Intermediate tutorials");
+        printf("\n-> Coding practice");
+        printf("\n-> Interactive visualizations");
+        printf("\n-> Topic-wise quizzes");
+    }
+    else
+    {
+        printf("\nRecommended Resources:");
+
+        printf("\n-> Advanced algorithms");
+        printf("\n-> Competitive programming");
+        printf("\n-> Advanced visualizations");
+        printf("\n-> Application-based problems");
+    }
+}
+
+
+/* =========================================================
+   QUIZ
+   ========================================================= */
+
+void quiz(struct Student *s)
+{
+    int answer;
+
+    int score = 0;
+
+
+    printf("\n========================================\n");
+    printf("              DSA QUIZ\n");
+    printf("========================================\n");
+
+
+    /* Question 1 */
+
+    printf("\nQ1. Which data structure follows LIFO?");
+
+    printf("\n1. Queue");
+    printf("\n2. Stack");
+    printf("\n3. Tree");
+    printf("\n4. Graph");
+
+    printf("\nAnswer: ");
+
+    scanf("%d", &answer);
+
+    if (answer == 2)
+        score++;
+
+
+    /* Question 2 */
+
+    printf("\nQ2. Which data structure follows FIFO?");
+
+    printf("\n1. Stack");
+    printf("\n2. Queue");
+    printf("\n3. Tree");
+    printf("\n4. Graph");
+
+    printf("\nAnswer: ");
+
+    scanf("%d", &answer);
+
+    if (answer == 2)
+        score++;
+
+
+    /* Question 3 */
+
+    printf("\nQ3. Which data structure uses nodes and links?");
+
+    printf("\n1. Array");
+    printf("\n2. Linked List");
+    printf("\n3. Integer");
+    printf("\n4. String");
+
+    printf("\nAnswer: ");
+
+    scanf("%d", &answer);
+
+    if (answer == 2)
+        score++;
+
+
+    /* Question 4 */
+
+    printf("\nQ4. Which traversal generally uses a queue?");
+
+    printf("\n1. BFS");
+    printf("\n2. DFS");
+    printf("\n3. Inorder");
+    printf("\n4. Postorder");
+
+    printf("\nAnswer: ");
+
+    scanf("%d", &answer);
+
+    if (answer == 1)
+        score++;
+
+
+    /* Question 5 */
+
+    printf("\nQ5. Which data structure represents relationships?");
+
+    printf("\n1. Graph");
+    printf("\n2. Integer");
+    printf("\n3. Character");
+    printf("\n4. String");
+
+    printf("\nAnswer: ");
+
+    scanf("%d", &answer);
+
+    if (answer == 1)
+        score++;
+
+
+    /* Calculate score */
+
+    s->quizScore = score * 20;
+
+
+    printf("\n========================================\n");
+
+    printf("Quiz Result: %d/5", score);
+
+    printf("\nQuiz Score : %d%%", s->quizScore);
+
+    printf("\n========================================\n");
+
+
+    /* XP */
+
+    if (score == 5)
+    {
+        printf("\nExcellent performance!");
+
+        addXP(s, 50);
+    }
+    else if (score == 4)
+    {
+        printf("\nVery good performance!");
+
+        addXP(s, 40);
+    }
+    else if (score == 3)
+    {
+        printf("\nGood effort. Keep practicing!");
+
+        addXP(s, 25);
+    }
+    else
+    {
+        printf("\nMore practice is recommended.");
+
+        addXP(s, 10);
+    }
+
+
+    /*
+       Motivation trigger
+       If quiz score is below 40,
+       automatically provide support.
+    */
+
+    if (s->quizScore < 40)
+    {
+        printf("\n\n----------------------------------------");
+        printf("\n        LEARN BUDDY SUPPORT");
+        printf("\n----------------------------------------");
+
+        printf("\n\n%s says:", s->buddy);
+
+        printf("\n\"Don't worry! One quiz does not");
+        printf("\ndefine your ability.\"");
+
+        printf("\n\nYour next small goal:");
+        printf("\n-> Review one concept");
+        printf("\n-> Practice two simple questions");
+        printf("\n-> Try the quiz again");
+    }
+
+
+    updateLearningLevel(s);
+
+    printf("\n\nAdaptive learning system updated.");
+}
+
+
+/* =========================================================
+   OPEN VISUALIZATION
+   ========================================================= */
+
+void openVisualization(int topic)
+{
+    char command[500];
+
+    const char *url;
+
+
+    switch (topic)
+    {
+        case 1:
+            url = "https://dsavisualiser.com/";
+            break;
+
+        case 2:
+            url = "https://dsavisualiser.com/algorithms/linked-lists";
+            break;
+
+        case 3:
+            url = "https://dsavisualiser.com/visualize/stack-operations";
+            break;
+
+        case 4:
+            url = "https://dsavisualiser.com/visualize/queue-operations";
+            break;
+
+        case 5:
+            url = "https://dsavisualiser.com/visualize/tree-bfs";
+            break;
+
+        case 6:
+            url = "https://dsavisualiser.com/algorithms/graphs";
+            break;
+
+        default:
+            return;
+    }
+
+
+    printf("\nVisualization Link:");
+    printf("\n%s\n", url);
+
+
+#ifdef _WIN32
+
+    sprintf(command, "start %s", url);
+
+#elif __APPLE__
+
+    sprintf(command, "open %s", url);
+
+#else
+
+    sprintf(command, "xdg-open %s", url);
+
+#endif
+
+
+    printf("\nOpening visualization in your browser...");
+
+    system(command);
+}
+
+
+/* =========================================================
+   INTERACTIVE VISUAL LEARNING
+   ========================================================= */
+
+void conceptVisualization(struct Student *s)
+{
+    int choice;
+
+    int openChoice;
+
+
+    printf("\n========================================\n");
+    printf("      INTERACTIVE VISUAL LEARNING\n");
+    printf("========================================\n");
+
+
+    printf("\nThe system detects difficult topics");
+    printf("\nusing your topic-wise knowledge score.");
+
+
+    printf("\n\nDIFFICULT TOPICS:");
+
+    if (s->arrays < 60)
+        printf("\n-> Arrays       : %d%%", s->arrays);
+
+    if (s->linkedLists < 60)
+        printf("\n-> Linked Lists : %d%%", s->linkedLists);
+
+    if (s->stacks < 60)
+        printf("\n-> Stacks       : %d%%", s->stacks);
+
+    if (s->queues < 60)
+        printf("\n-> Queues       : %d%%", s->queues);
+
+    if (s->trees < 60)
+        printf("\n-> Trees        : %d%%", s->trees);
+
+    if (s->graphs < 60)
+        printf("\n-> Graphs       : %d%%", s->graphs);
+
+
+    printf("\n\n========================================");
+    printf("\n       SELECT TOPIC TO VISUALIZE");
+    printf("\n========================================");
+
+
+    printf("\n\n1. Arrays");
+    printf("\n2. Linked Lists");
+    printf("\n3. Stacks");
+    printf("\n4. Queues");
+    printf("\n5. Trees");
+    printf("\n6. Graphs");
+
+
+    printf("\n\nEnter your choice: ");
+
+    scanf("%d", &choice);
+
+
+    printf("\n========================================\n");
+
+
+    switch (choice)
+    {
+        /* ---------------------------------------------
+           ARRAYS
+           --------------------------------------------- */
+
+        case 1:
+
+            printf("          ARRAY VISUALIZATION");
+            printf("\n========================================");
+
+            printf("\n\nYour knowledge: %d%%", s->arrays);
+
+
+            if (s->arrays < 60)
+            {
+                printf("\n\nDIFFICULT TOPIC DETECTED!");
+
+                printf("\n\nRecommended Visual Learning:");
+
+                printf("\n-> Array operations");
+                printf("\n-> Searching");
+                printf("\n-> Sorting");
+                printf("\n-> Step-by-step animation");
+
+
+                printf("\n\nVisualization:");
+                printf("\nhttps://dsavisualiser.com/");
+
+
+                printf("\n\nOpen visualization?");
+                printf("\n1. Yes");
+                printf("\n2. No");
+
+                printf("\nChoice: ");
+
+                scanf("%d", &openChoice);
+
+
+                if (openChoice == 1)
+                    openVisualization(1);
+            }
+            else
+            {
+                printf("\n\nYou have a good understanding of Arrays.");
+
+                printf("\nTry advanced array problems.");
+            }
+
+            break;
+
+
+        /* ---------------------------------------------
+           LINKED LIST
+           --------------------------------------------- */
+
+        case 2:
+
+            printf("       LINKED LIST VISUALIZATION");
+            printf("\n========================================");
+
+            printf("\n\nYour knowledge: %d%%", s->linkedLists);
+
+
+            if (s->linkedLists < 60)
+            {
+                printf("\n\nDIFFICULT TOPIC DETECTED!");
+
+                printf("\n\nFocus on:");
+
+                printf("\n-> Node creation");
+                printf("\n-> Insertion");
+                printf("\n-> Deletion");
+                printf("\n-> Pointer movement");
+                printf("\n-> Traversal");
+
+
+                printf("\n\nVisualization:");
+                printf("\nhttps://dsavisualiser.com/algorithms/linked-lists");
+
+
+                printf("\n\nOpen visualization?");
+                printf("\n1. Yes");
+                printf("\n2. No");
+
+                printf("\nChoice: ");
+
+                scanf("%d", &openChoice);
+
+
+                if (openChoice == 1)
+                    openVisualization(2);
+            }
+            else
+            {
+                printf("\n\nLinked List knowledge is satisfactory.");
+            }
+
+            break;
+
+
+        /* ---------------------------------------------
+           STACK
+           --------------------------------------------- */
+
+        case 3:
+
+            printf("          STACK VISUALIZATION");
+            printf("\n========================================");
+
+            printf("\n\nYour knowledge: %d%%", s->stacks);
+
+
+            if (s->stacks < 60)
+            {
+                printf("\n\nDIFFICULT TOPIC DETECTED!");
+
+                printf("\n\nFocus on:");
+
+                printf("\n-> Push");
+                printf("\n-> Pop");
+                printf("\n-> Peek");
+                printf("\n-> LIFO principle");
+
+
+                printf("\n\nVisualization:");
+                printf("\nhttps://dsavisualiser.com/visualize/stack-operations");
+
+
+                printf("\n\nOpen visualization?");
+                printf("\n1. Yes");
+                printf("\n2. No");
+
+                printf("\nChoice: ");
+
+                scanf("%d", &openChoice);
+
+
+                if (openChoice == 1)
+                    openVisualization(3);
+            }
+            else
+            {
+                printf("\n\nStack knowledge is satisfactory.");
+            }
+
+            break;
+
+
+        /* ---------------------------------------------
+           QUEUE
+           --------------------------------------------- */
+
+        case 4:
+
+            printf("          QUEUE VISUALIZATION");
+            printf("\n========================================");
+
+            printf("\n\nYour knowledge: %d%%", s->queues);
+
+
+            if (s->queues < 60)
+            {
+                printf("\n\nDIFFICULT TOPIC DETECTED!");
+
+                printf("\n\nFocus on:");
+
+                printf("\n-> Enqueue");
+                printf("\n-> Dequeue");
+                printf("\n-> Front");
+                printf("\n-> Rear");
+                printf("\n-> FIFO principle");
+
+
+                printf("\n\nVisualization:");
+                printf("\nhttps://dsavisualiser.com/visualize/queue-operations");
+
+
+                printf("\n\nOpen visualization?");
+                printf("\n1. Yes");
+                printf("\n2. No");
+
+                printf("\nChoice: ");
+
+                scanf("%d", &openChoice);
+
+
+                if (openChoice == 1)
+                    openVisualization(4);
+            }
+            else
+            {
+                printf("\n\nQueue knowledge is satisfactory.");
+            }
+
+            break;
+
+
+        /* ---------------------------------------------
+           TREE
+           --------------------------------------------- */
+
+        case 5:
+
+            printf("           TREE VISUALIZATION");
+            printf("\n========================================");
+
+            printf("\n\nYour knowledge: %d%%", s->trees);
+
+
+            if (s->trees < 60)
+            {
+                printf("\n\nDIFFICULT TOPIC DETECTED!");
+
+                printf("\n\nFocus on:");
+
+                printf("\n-> Binary Trees");
+                printf("\n-> Binary Search Trees");
+                printf("\n-> Insertion");
+                printf("\n-> Searching");
+                printf("\n-> Tree Traversals");
+
+
+                printf("\n\nVisualization:");
+                printf("\nhttps://dsavisualiser.com/visualize/tree-bfs");
+
+
+                printf("\n\nOpen visualization?");
+                printf("\n1. Yes");
+                printf("\n2. No");
+
+                printf("\nChoice: ");
+
+                scanf("%d", &openChoice);
+
+
+                if (openChoice == 1)
+                    openVisualization(5);
+            }
+            else
+            {
+                printf("\n\nTree knowledge is satisfactory.");
+            }
+
+            break;
+
+
+        /* ---------------------------------------------
+           GRAPH
+           --------------------------------------------- */
+
+        case 6:
+
+            printf("          GRAPH VISUALIZATION");
+            printf("\n========================================");
+
+            printf("\n\nYour knowledge: %d%%", s->graphs);
+
+
+            if (s->graphs < 60)
+            {
+                printf("\n\nDIFFICULT TOPIC DETECTED!");
+
+                printf("\n\nFocus on:");
+
+                printf("\n-> Nodes");
+                printf("\n-> Edges");
+                printf("\n-> BFS");
+                printf("\n-> DFS");
+                printf("\n-> Graph traversal");
+
+
+                printf("\n\nVisualization:");
+                printf("\nhttps://dsavisualiser.com/algorithms/graphs");
+
+
+                printf("\n\nOpen visualization?");
+                printf("\n1. Yes");
+                printf("\n2. No");
+
+                printf("\nChoice: ");
+
+                scanf("%d", &openChoice);
+
+
+                if (openChoice == 1)
+                    openVisualization(6);
+            }
+            else
+            {
+                printf("\n\nGraph knowledge is satisfactory.");
+            }
+
+            break;
+
+
+        default:
+
+            printf("\nInvalid topic selection!");
+
+            return;
+    }
+
+
+    /* =====================================================
+       PERSONALIZED VISUAL LEARNING CYCLE
+       ===================================================== */
+
+    printf("\n\n========================================");
+    printf("\n       PERSONALIZED LEARNING CYCLE");
+    printf("\n========================================");
+
+
+    printf("\n\nDifficult Topic");
+
+    printf("\n      |");
+    printf("\n      v");
+
+    printf("\nInteractive Visualization / Video");
+
+    printf("\n      |");
+    printf("\n      v");
+
+    printf("\nUnderstand Concept");
+
+    printf("\n      |");
+    printf("\n      v");
+
+    printf("\nPractice");
+
+    printf("\n      |");
+    printf("\n      v");
+
+    printf("\nTake Quiz");
+
+    printf("\n      |");
+    printf("\n      v");
+
+    printf("\nMotivation if Student Struggles");
+
+    printf("\n      |");
+    printf("\n      v");
+
+    printf("\nUpdate Knowledge");
+
+    printf("\n      |");
+    printf("\n      v");
+
+    printf("\nEarn XP / Badge");
+
+    printf("\n      |");
+    printf("\n      v");
+
+    printf("\nAdaptive Difficulty");
+
+    printf("\n      |");
+    printf("\n      v");
+
+    printf("\nNext Personalized Topic");
+}
+
+
+/* =========================================================
+   CHOOSE LEARN BUDDY
+   ========================================================= */
+
+void chooseBuddy(struct Student *s)
+{
+    int choice;
+
+
+    printf("\n========================================");
+    printf("\n          CHOOSE YOUR BUDDY");
+    printf("\n========================================");
+
+
+    printf("\n\n1. Spider Buddy");
+    printf("\n   Skill: Challenge + Web Learning");
+
+
+    printf("\n\n2. Dark Knight Buddy");
+    printf("\n   Skill: Problem Solving");
+
+
+    printf("\n\n3. Wizard Buddy");
+    printf("\n   Skill: Concept Mastery");
+
+
+    printf("\n\n4. Iron Buddy");
+    printf("\n   Skill: Discipline + Consistency");
+
+
+    printf("\n\nEnter choice: ");
+
+    scanf("%d", &choice);
+
+
+    switch (choice)
+    {
+        case 1:
+
+            strcpy(s->buddy, "Spider Buddy");
+
+            break;
+
+
+        case 2:
+
+            strcpy(s->buddy, "Dark Knight Buddy");
+
+            break;
+
+
+        case 3:
+
+            strcpy(s->buddy, "Wizard Buddy");
+
+            break;
+
+
+        case 4:
+
+            strcpy(s->buddy, "Iron Buddy");
+
+            break;
+
+
+        default:
+
+            strcpy(s->buddy, "Wizard Buddy");
+
+            printf("\nInvalid choice.");
+            printf("\nWizard Buddy selected.");
+    }
+
+
+    printf("\n\nYour Learn Buddy is now: %s", s->buddy);
+}
+
+
+/* =========================================================
+   SHOW TOPIC KNOWLEDGE
+   ========================================================= */
+
+void showKnowledge(struct Student *s)
+{
+    printf("\n========================================");
+    printf("\n          TOPIC KNOWLEDGE");
+    printf("\n========================================");
+
+
+    printf("\n\nArrays       : %d%%", s->arrays);
+
+    printf("\nLinked Lists : %d%%", s->linkedLists);
+
+    printf("\nStacks       : %d%%", s->stacks);
+
+    printf("\nQueues       : %d%%", s->queues);
+
+    printf("\nTrees        : %d%%", s->trees);
+
+    printf("\nGraphs       : %d%%", s->graphs);
+}
+
+
+/* =========================================================
+   UPDATE TOPIC KNOWLEDGE
+   ========================================================= */
+
+void updateKnowledge(struct Student *s)
+{
+    int choice;
+
+    int value;
+
+
+    printf("\n========================================");
+    printf("\n        UPDATE TOPIC KNOWLEDGE");
+    printf("\n========================================");
+
+
+    printf("\n\n1. Arrays");
+    printf("\n2. Linked Lists");
+    printf("\n3. Stacks");
+    printf("\n4. Queues");
+    printf("\n5. Trees");
+    printf("\n6. Graphs");
+
+
+    printf("\n\nSelect topic: ");
+
+    scanf("%d", &choice);
+
+
+    printf("Enter new knowledge score (0-100): ");
+
+    scanf("%d", &value);
+
+
+    if (value < 0)
+        value = 0;
+
+    if (value > 100)
+        value = 100;
+
+
+    switch (choice)
+    {
+        case 1:
+
+            s->arrays = value;
+
+            break;
+
+
+        case 2:
+
+            s->linkedLists = value;
+
+            break;
+
+
+        case 3:
+
+            s->stacks = value;
+
+            break;
+
+
+        case 4:
+
+            s->queues = value;
+
+            break;
+
+
+        case 5:
+
+            s->trees = value;
+
+            break;
+
+
+        case 6:
+
+            s->graphs = value;
+
+            break;
+
+
+        default:
+
+            printf("\nInvalid choice!");
+
+            return;
+    }
+
+
+    s->topicsCompleted++;
+
+    addXP(s, 20);
+
+
+    printf("\nKnowledge updated successfully!");
+
+    printf("\nYour learning progress has been recorded.");
+}
+
+
+/* =========================================================
+   REWARDS AND BADGES
+   ========================================================= */
+
+void showRewards(struct Student *s)
+{
+    int level;
+
+
+    printf("\n========================================");
+    printf("\n          REWARDS & BADGES");
+    printf("\n========================================");
+
+
+    if (s->xp < 100)
+        level = 1;
+
+    else if (s->xp < 250)
+        level = 2;
+
+    else if (s->xp < 500)
+        level = 3;
+
+    else
+        level = 4;
+
+
+    printf("\n\nBuddy Level : %d", level);
+
+    printf("\nTotal XP    : %d", s->xp);
+
+    printf("\nStreak      : %d days", s->streak);
+
+
+    printf("\n\nBADGES:");
+
+
+    if (s->xp >= 50)
+        printf("\n[+] First XP Badge");
+
+
+    if (s->xp >= 100)
+        printf("\n[+] Rising Learner Badge");
+
+
+    if (s->xp >= 250)
+        printf("\n[+] Skill Builder Badge");
+
+
+    if (s->xp >= 500)
+        printf("\n[+] Knowledge Master Badge");
+
+
+    if (s->quizScore >= 80)
+        printf("\n[+] Quiz Champion Badge");
+
+
+    if (s->quizScore == 100)
+        printf("\n[+] Perfect Score Badge");
+
+
+    if (s->streak >= 3)
+        printf("\n[+] Consistency Badge");
+
+
+    if (s->topicsCompleted >= 5)
+        printf("\n[+] Topic Explorer Badge");
+}
+
+
+/* =========================================================
+   DAILY CHALLENGE
+   ========================================================= */
+
+void dailyChallenge(struct Student *s)
+{
+    int answer;
+
+
+    printf("\n========================================");
+    printf("\n           DAILY CHALLENGE");
+    printf("\n========================================");
+
+
+    printf("\n\nChallenge:");
+
+    printf("\nWhich traversal generally uses a queue?");
+
+    printf("\n1. BFS");
+    printf("\n2. DFS");
+    printf("\n3. Inorder");
+    printf("\n4. Postorder");
+
+
+    printf("\n\nAnswer: ");
+
+    scanf("%d", &answer);
+
+
+    if (answer == 1)
+    {
+        printf("\nCorrect! Great work!");
+
+        s->streak++;
+
+        addXP(s, 25);
+    }
+    else
+    {
+        printf("\nIncorrect.");
+
+        printf("\nCorrect answer: BFS");
+
+        printf("\n\n%s says:", s->buddy);
+
+        printf("\n\"That's okay! Mistakes help us learn.\"");
+
+        printf("\nTry again tomorrow!");
+    }
+}
+
+
+/* =========================================================
+   MOTIVATION & ENCOURAGEMENT SYSTEM
+   ========================================================= */
+
+void motivationSupport(struct Student *s)
+{
+    int choice;
+
+    int needSupport = 0;
+
+
+    printf("\n========================================");
+    printf("\n       MOTIVATION & SUPPORT CENTER");
+    printf("\n========================================");
+
+
+    /*
+       Detect learning difficulty using measurable
+       learning information.
+    */
+
+
+    if (s->testScore < s->previousScore)
+        needSupport = 1;
+
+
+    if (s->quizScore != -1 && s->quizScore < 40)
+        needSupport = 1;
+
+
+    if (s->arrays < 30 ||
+        s->linkedLists < 30 ||
+        s->stacks < 30 ||
+        s->queues < 30 ||
+        s->trees < 30 ||
+        s->graphs < 30)
+    {
+        needSupport = 1;
+    }
+
+
+    if (s->topicsCompleted < 2)
+        needSupport = 1;
+
+
+    if (needSupport == 1)
+    {
+        printf("\n\n%s says:", s->buddy);
+
+
+        printf("\n\n\"Hey! Learning can be difficult sometimes.\"");
+
+        printf("\n\"You don't have to master everything at once.\"");
+
+        printf("\n\"Let's take one small step together.\"");
+
+
+        printf("\n\n----------------------------------------");
+        printf("\n          YOUR NEXT SMALL GOAL");
+        printf("\n----------------------------------------");
+
+
+        /*
+           Suggest an achievable goal
+           instead of overwhelming the student.
+        */
+
+
+        if (s->quizScore != -1 && s->quizScore < 40)
+        {
+            printf("\n\n1. Review one basic concept");
+            printf("\n2. Solve two easy questions");
+            printf("\n3. Attempt the quiz again");
+        }
+        else if (s->testScore < s->previousScore)
+        {
+            printf("\n\n1. Identify one weak topic");
+            printf("\n2. Use visual learning");
+            printf("\n3. Practice one simple problem");
+        }
+        else
+        {
+            printf("\n\n1. Choose one topic");
+            printf("\n2. Learn one concept");
+            printf("\n3. Complete one practice activity");
+        }
+
+
+        printf("\n\n----------------------------------------");
+        printf("\n          REMEMBER");
+        printf("\n----------------------------------------");
+
+        printf("\n\nProgress does not require perfection.");
+
+        printf("\nSmall improvements become big results.");
+
+
+        printf("\n\nWould you like to start a small activity?");
+        printf("\n1. Yes - Open Visual Learning");
+        printf("\n2. Yes - Take Quiz");
+        printf("\n3. No - Continue Later");
+
+
+        printf("\n\nChoice: ");
+
+        scanf("%d", &choice);
+
+
+        if (choice == 1)
+        {
+            conceptVisualization(s);
+        }
+        else if (choice == 2)
+        {
+            quiz(s);
+        }
+        else
+        {
+            printf("\nThat's okay!");
+
+            printf("\n%s says:", s->buddy);
+
+            printf("\n\"Come back when you're ready. I'll be here!\"");
+        }
+    }
+    else
+    {
+        printf("\n\n%s says:", s->buddy);
+
+        printf("\n\"You're doing well! Keep the momentum going!\"");
+
+        printf("\n\nCurrent learning progress looks stable.");
+
+        printf("\nKeep practicing and challenging yourself.");
+    }
+}
+
+
+/* =========================================================
+   LEARN BUDDY
+   ========================================================= */
+
+void learnBuddy(struct Student *s)
+{
+    int choice;
+
+
+    printf("\n========================================");
+    printf("\n             LEARN BUDDY");
+    printf("\n========================================");
+
+
+    printf("\n\nWelcome, %s!", s->name);
+
+    printf("\nYour Buddy: %s", s->buddy);
+
+    printf("\nXP: %d", s->xp);
+
+
+    do
+    {
+        printf("\n\n========================================");
+        printf("\n             BUDDY MENU");
+        printf("\n========================================");
+
+
+        printf("\n\n1. Learn a Concept");
+
+        printf("\n2. Take a Quiz");
+
+        printf("\n3. View Knowledge");
+
+        printf("\n4. Update Topic Knowledge");
+
+        printf("\n5. View Rewards & Badges");
+
+        printf("\n6. Complete Daily Challenge");
+
+        printf("\n7. Motivation & Encouragement");
+
+        printf("\n8. Change Buddy");
+
+        printf("\n0. Exit Learn Buddy");
+
+
+        printf("\n\nEnter choice: ");
+
+        scanf("%d", &choice);
+
+
+        switch (choice)
+        {
+            /* -----------------------------------------
+               LEARN CONCEPT
+               ----------------------------------------- */
+
+            case 1:
+
+                printf("\n%s says:", s->buddy);
+
+                printf("\n\"Let's learn something new today!\"");
+
+
+                printf("\n\nYour weakest topic:");
+
+
+                if (s->graphs <= s->trees &&
+                    s->graphs <= s->linkedLists &&
+                    s->graphs <= s->arrays &&
+                    s->graphs <= s->stacks &&
+                    s->graphs <= s->queues)
+                {
+                    printf(" Graphs");
+                }
+                else if (s->trees <= s->linkedLists &&
+                         s->trees <= s->arrays &&
+                         s->trees <= s->stacks &&
+                         s->trees <= s->queues)
+                {
+                    printf(" Trees");
+                }
+                else if (s->linkedLists <= s->arrays &&
+                         s->linkedLists <= s->stacks &&
+                         s->linkedLists <= s->queues)
+                {
+                    printf(" Linked Lists");
+                }
+                else if (s->arrays <= s->stacks &&
+                         s->arrays <= s->queues)
+                {
+                    printf(" Arrays");
+                }
+                else if (s->stacks <= s->queues)
+                {
+                    printf(" Stacks");
+                }
+                else
+                {
+                    printf(" Queues");
+                }
+
+
+                addXP(s, 10);
+
+                break;
+
+
+            /* -----------------------------------------
+               QUIZ
+               ----------------------------------------- */
+
+            case 2:
+
+                quiz(s);
+
+                break;
+
+
+            /* -----------------------------------------
+               KNOWLEDGE
+               ----------------------------------------- */
+
+            case 3:
+
+                showKnowledge(s);
+
+                break;
+
+
+            /* -----------------------------------------
+               UPDATE KNOWLEDGE
+               ----------------------------------------- */
+
+            case 4:
+
+                updateKnowledge(s);
+
+                break;
+
+
+            /* -----------------------------------------
+               REWARDS
+               ----------------------------------------- */
+
+            case 5:
+
+                showRewards(s);
+
+                break;
+
+
+            /* -----------------------------------------
+               DAILY CHALLENGE
+               ----------------------------------------- */
+
+            case 6:
+
+                dailyChallenge(s);
+
+                break;
+
+
+            /* -----------------------------------------
+               MOTIVATION
+               ----------------------------------------- */
+
+            case 7:
+
+                motivationSupport(s);
+
+                break;
+
+
+            /* -----------------------------------------
+               CHANGE BUDDY
+               ----------------------------------------- */
+
+            case 8:
+
+                chooseBuddy(s);
+
+                break;
+
+
+            case 0:
+
+                printf("\nLeaving Learn Buddy...");
+
+                break;
+
+
+            default:
+
+                printf("\nInvalid choice!");
+        }
+
+    } while (choice != 0);
+}
+
+
+/* =========================================================
+   PERSONALIZED STUDY PLAN
+   ========================================================= */
+
+void studyPlan(struct Student *s)
+{
+    printf("\n========================================");
+    printf("\n       PERSONALIZED STUDY PLAN");
+    printf("\n========================================");
+
+
+    printf("\n\nAvailable Study Time: %d hour(s)/day",
+           s->studyHours);
+
+
+    printf("\n\nRecommended Schedule:");
+
+
+    if (s->studyHours == 1)
+    {
+        printf("\n30 min - Concept Learning");
+
+        printf("\n20 min - Practice");
+
+        printf("\n10 min - Quiz");
+    }
+    else if (s->studyHours == 2)
+    {
+        printf("\n45 min - Concept Learning");
+
+        printf("\n45 min - Coding Practice");
+
+        printf("\n30 min - Quiz + Revision");
+    }
+    else
+    {
+        printf("\n1 hour - Concept Learning");
+
+        printf("\n1 hour - Coding Practice");
+
+        printf("\n30 min - Visualization");
+
+        printf("\n30 min - Quiz");
+    }
+
+
+    printf("\n\nThe plan adapts according to your performance.");
+
+}
+
+
+/* =========================================================
+   PROGRESS TRACKING
+   ========================================================= */
+
+void progressTracking(struct Student *s)
+{
+    printf("\n========================================");
+    printf("\n          PROGRESS TRACKING");
+    printf("\n========================================");
+
+
+    printf("\n\nCurrent Score    : %d%%", s->testScore);
+
+
+    printf("\nQuiz Score       : ");
+
+    if (s->quizScore == -1)
+        printf("Not attempted");
+    else
+        printf("%d%%", s->quizScore);
+
+
+    printf("\nTopics Completed : %d", s->topicsCompleted);
+
+    printf("\nXP               : %d", s->xp);
+
+    printf("\nStreak           : %d days", s->streak);
+
+
+    printf("\n\nTopic Progress:");
+
+    printf("\nArrays       : %d%%", s->arrays);
+
+    printf("\nLinked Lists : %d%%", s->linkedLists);
+
+    printf("\nStacks       : %d%%", s->stacks);
+
+    printf("\nQueues       : %d%%", s->queues);
+
+    printf("\nTrees        : %d%%", s->trees);
+
+    printf("\nGraphs       : %d%%", s->graphs);
+}
+
+
+/* =========================================================
+   COMPLETE RECOMMENDATION
+   ========================================================= */
+
+void completeRecommendation(struct Student *s)
+{
+    updateLearningLevel(s);
+
+
+    printf("\n========================================");
+    printf("\n      COMPLETE PERSONALIZED PLAN");
+    printf("\n========================================");
+
+
+    printf("\n\nStudent: %s", s->name);
+
+
+    /* Performance */
+
+    printf("\n\n1. PERFORMANCE");
+
+    printf("\nCurrent Score: %d%%", s->testScore);
+
+
+    /* Skill Gap */
+
+    printf("\n\n2. SKILL GAP");
+
+
+    if (s->arrays < 60)
+        printf("\n-> Arrays");
+
+    if (s->linkedLists < 60)
+        printf("\n-> Linked Lists");
+
+    if (s->stacks < 60)
+        printf("\n-> Stacks");
+
+    if (s->queues < 60)
+        printf("\n-> Queues");
+
+    if (s->trees < 60)
+        printf("\n-> Trees");
+
+    if (s->graphs < 60)
+        printf("\n-> Graphs");
+
+
+    /* Adaptive Level */
+
+    printf("\n\n3. ADAPTIVE LEVEL");
+
+
+    if (s->learningLevel == 1)
+        printf("\n-> BASIC");
+
+    else if (s->learningLevel == 2)
+        printf("\n-> INTERMEDIATE");
+
+    else
+        printf("\n-> ADVANCED");
+
+
+    /* Visual Learning */
+
+    printf("\n\n4. VISUAL LEARNING");
+
+    printf("\n-> Difficult topics receive visual resources");
+
+    printf("\n-> Student practices the concept");
+
+    printf("\n-> Student takes a quiz");
+
+
+    /* Motivation */
+
+    printf("\n\n5. EMOTIONAL SUPPORT");
+
+    printf("\n-> Learn Buddy monitors learning difficulties");
+
+    printf("\n-> Encouraging messages are provided");
+
+    printf("\n-> Small achievable goals are suggested");
+
+    printf("\n-> Student can request motivation anytime");
+
+
+    /* Gamification */
+
+    printf("\n\n6. GAMIFICATION");
+
+    printf("\n-> Learn Buddy: %s", s->buddy);
+
+    printf("\n-> XP: %d", s->xp);
+
+    printf("\n-> Streak: %d days", s->streak);
+
+
+    /* Complete Cycle */
+
+    printf("\n\n7. PERSONALIZED LEARNING CYCLE");
+
+    printf("\n\nProfile");
+
+    printf("\n   ↓");
+
+    printf("\nPerformance Analysis");
+
+    printf("\n   ↓");
+
+    printf("\nSkill Gap Detection");
+
+    printf("\n   ↓");
+
+    printf("\nDifficult Topic");
+
+    printf("\n   ↓");
+
+    printf("\nInteractive Visual Learning");
+
+    printf("\n   ↓");
+
+    printf("\nPractice");
+
+    printf("\n   ↓");
+
+    printf("\nQuiz");
+
+    printf("\n   ↓");
+
+    printf("\nMotivation if Student Struggles");
+
+    printf("\n   ↓");
+
+    printf("\nKnowledge Update");
+
+    printf("\n   ↓");
+
+    printf("\nXP / Badge");
+
+    printf("\n   ↓");
+
+    printf("\nAdaptive Difficulty");
+
+    printf("\n   ↓");
+
+    printf("\nNext Personalized Recommendation");
+
+
+    printf("\n\n========================================");
+
+    printf("\n      RECOMMENDATION GENERATED!");
+
+    printf("\n========================================\n");
+}
+
+
+/* =========================================================
+   MAIN FUNCTION
+   ========================================================= */
+
+int main()
+{
+    struct Student s;
+
+    int choice;
+
+
+    /* =====================================================
+       STUDENT INPUT
+       ===================================================== */
+
+    printf("========================================\n");
+    printf(" PERSONALIZED LEARNING RECOMMENDATION\n");
+    printf("              AGENT\n");
+    printf("========================================\n");
+
+
+    printf("\nEnter Student Name: ");
+
+    scanf(" %[^\n]", s.name);
+
+
+    printf("Enter Age: ");
+
+    scanf("%d", &s.age);
+
+
+    printf("Enter Subject: ");
+
+    scanf(" %[^\n]", s.subject);
+
+
+    printf("Enter Previous Test Score: ");
+
+    scanf("%d", &s.previousScore);
+
+
+    printf("Enter Current Test Score: ");
+
+    scanf("%d", &s.testScore);
+
+
+    printf("Enter Skill Level (Basic/Intermediate/Advanced): ");
+
+    scanf(" %[^\n]", s.skillLevel);
+
+
+    printf("Enter Study Hours per Day: ");
+
+    scanf("%d", &s.studyHours);
+
+
+    printf("Enter Topics Completed: ");
+
+    scanf("%d", &s.topicsCompleted);
+
+
+    /* =====================================================
+       INITIAL VALUES
+       ===================================================== */
+
+    s.quizScore = -1;
+
+
+    s.xp = 0;
+
+
+    s.streak = 0;
+
+
+    strcpy(s.buddy, "Wizard Buddy");
+
+
+    /* =====================================================
+       INITIAL TOPIC KNOWLEDGE
+       ===================================================== */
+
+    s.arrays = 50;
+
+    s.linkedLists = 40;
+
+    s.stacks = 60;
+
+    s.queues = 50;
+
+    s.trees = 30;
+
+    s.graphs = 20;
+
+
+    updateLearningLevel(&s);
+
+
+    /* =====================================================
+       MAIN MENU
+       ===================================================== */
+
+    do
+    {
+        printf("\n\n========================================");
+        printf("\n             MAIN MENU");
+        printf("\n========================================");
+
+
+        printf("\n\n1. Student Profile");
+
+        printf("\n2. Performance Analysis");
+
+        printf("\n3. Skill Gap Identification");
+
+        printf("\n4. Adaptive Basic -> Advanced Learning");
+
+        printf("\n5. Learning Resources");
+
+        printf("\n6. Quiz");
+
+        printf("\n7. Interactive Visual Learning");
+
+        printf("\n8. Learn Buddy");
+
+        printf("\n9. Personalized Study Plan");
+
+        printf("\n10. Progress Tracking");
+
+        printf("\n11. Generate Complete Recommendation");
+
+        printf("\n0. Exit");
+
+
+        printf("\n\nEnter your choice: ");
+
+        scanf("%d", &choice);
+
+
+        switch (choice)
+        {
+            case 1:
+
+                showProfile(&s);
+
+                break;
+
+
+            case 2:
+
+                performanceAnalysis(&s);
+
+                break;
+
+
+            case 3:
+
+                skillGap(&s);
+
+                break;
+
+
+            case 4:
+
+                adaptiveLearning(&s);
+
+                break;
+
+
+            case 5:
+
+                resources(&s);
+
+                break;
+
+
+            case 6:
+
+                quiz(&s);
+
+                break;
+
+
+            case 7:
+
+                conceptVisualization(&s);
+
+                break;
+
+
+            case 8:
+
+                learnBuddy(&s);
+
+                break;
+
+
+            case 9:
+
+                studyPlan(&s);
+
+                break;
+
+
+            case 10:
+
+                progressTracking(&s);
+
+                break;
+
+
+            case 11:
+
+                completeRecommendation(&s);
+
+                break;
+
+
+            case 0:
+
+                printf("\n\n========================================");
+
+                printf("\nThank you for using the");
+
+                printf("\nPersonalized Learning Agent!");
+
+                printf("\n\n%s says:", s.buddy);
+
+                printf("\n\"Keep learning. Keep growing. Keep going!\"");
+
+                printf("\n========================================\n");
+
+                break;
+
+
+            default:
+
+                printf("\nInvalid choice! Please try again.");
+        }
+
+    } while (choice != 0);
+
+
+    return 0;
+}
